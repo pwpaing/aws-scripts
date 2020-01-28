@@ -39,7 +39,7 @@ chmod +x /home/ec2-user/ebenvironmentname.py
 # Set Hostname
 echo '#!/usr/bin/env bash' >> /home/ec2-user/sethostname.sh
 echo ebenvironmentname=\$\(./ebenvironmentname.py\) >> /home/ec2-user/sethostname.sh
-echo sudo hostname '"$ebenvironmentname"'-"$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)" >> /home/ec2-user/sethostname.sh
+echo sudo hostname '"$ebenvironmentname"'-"$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)" >> /home/ec2-user/sethostname.sh
 echo "chkconfig --list newrelic-sysmond &> /dev/null && sudo service newrelic-sysmond restart" >> /home/ec2-user/sethostname.sh
 chmod +x /home/ec2-user/sethostname.sh
 
