@@ -18,6 +18,9 @@ function cleanup(){
 
 cleanup
 
+# From now on nothing should go wrong
+set -e
+
 # Create the Python script to detect EB Environment
 cat > /home/ec2-user/ebenvironmentname.py <<- EOF
 	#!/usr/bin/env python
@@ -39,10 +42,12 @@ EOF
 chmod +x /home/ec2-user/ebenvironmentname.py
 
 # Set Hostname
-echo '#!/usr/bin/env bash' >> /home/ec2-user/sethostname.sh
-echo ebenvironmentname=\$\(./ebenvironmentname.py\) >> /home/ec2-user/sethostname.sh
-echo sudo hostname '"$ebenvironmentname"'-"$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)" >> /home/ec2-user/sethostname.sh
-echo "chkconfig --list newrelic-sysmond &> /dev/null && sudo service newrelic-sysmond restart" >> /home/ec2-user/sethostname.sh
+{
+  echo '#!/usr/bin/env bash'
+  echo ebenvironmentname=\$\(./ebenvironmentname.py\)
+  echo sudo hostname '"$ebenvironmentname"'-"$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
+  echo "chkconfig --list newrelic-sysmond &> /dev/null && sudo service newrelic-sysmond restart"
+} >> /home/ec2-user/sethostname.sh
 chmod +x /home/ec2-user/sethostname.sh
 
 cd /home/ec2-user/ && ./sethostname.sh
