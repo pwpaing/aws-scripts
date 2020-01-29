@@ -3,9 +3,6 @@
 # It also will restart New Relic monitoring if present
 # Requires "ec2:Describe*" IAM Policy
 
-# Exit straight away on error
-set -e
-
 # Update boto
 pip install --upgrade boto
 
