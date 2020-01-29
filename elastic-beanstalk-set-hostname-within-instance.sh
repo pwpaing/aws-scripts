@@ -9,10 +9,10 @@ pip install --upgrade boto
 # Remove any previous scripts
 function cleanup(){
 	if [ -f /home/ec2-user/ebenvironmentname.py ]; then
-		rm /home/ec2-user/ebenvironmentname.py
+		rm -f /home/ec2-user/ebenvironmentname.py
 	fi
 	if [ -f /home/ec2-user/sethostname.sh ]; then
-		rm /home/ec2-user/sethostname.sh
+		rm -f /home/ec2-user/sethostname.sh
 	fi
 }
 
