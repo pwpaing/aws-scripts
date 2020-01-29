@@ -18,9 +18,6 @@ function cleanup(){
 
 cleanup
 
-# From now on nothing should go wrong
-set -e
-
 # Create the Python script to detect EB Environment
 cat > /home/ec2-user/ebenvironmentname.py <<- EOF
 	#!/usr/bin/env python
