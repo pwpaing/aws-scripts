@@ -46,10 +46,19 @@ chmod +x /home/ec2-user/ebenvironmentname.py
 chmod +x /home/ec2-user/sethostname.sh
 
 cd /home/ec2-user/ && ./sethostname.sh
+
+# Make hostname resolvable
 {
   cat /etc/hosts
   echo 127.0.0.1 $(hostname)
 } > /tmp/hosts
 sort /tmp/hosts | uniq > /etc/hosts
+
+# Persist changes over reboot
+if ! [ -f /home/ec2-user/crontab.bk ]; then
+  cp /etc/crontab /home/ec2-user/crontab.bk
+fi
+/bin/cp -f /home/ec2-user/crontab.bk /etc/crontab
+echo '@reboot root bash /opt/elasticbeanstalk/hooks/appdeploy/post/98_set_hostname.sh' >> /etc/crontab
 
 cleanup
